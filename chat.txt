@@ -1,0 +1,3 @@
+[2025-01-24 12:00:00]
+Description: Refactor project structure to follow guidelines
+Prompt: Follow the rules in the attached file called guidelines for all code generation.
