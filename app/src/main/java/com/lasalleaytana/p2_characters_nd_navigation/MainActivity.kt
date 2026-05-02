@@ -59,8 +59,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.lasalleaytana.p2_characters_nd_navigation.ui.theme.P2_Characters_nd_NavigationTheme
 
-// Commit Again
-
 //FONTS
 val lobster_mlb_font = FontFamily(
     Font(R.font.lobster_mlb_font)
@@ -84,31 +82,106 @@ data class ItemData(
     val imageKwami: Int,
     val kwamiDes: String,
     val route: String,
-    val backgroundRes: Int
+    val backgroundRes: Int,
+    val buttonColor: Color
 )
 
 // ITEM: LIST
 val itemList = listOf(
     // LADYBUG
-    ItemData(1, R.drawable.ladybug_picture, "Ladybug",
-        "Ladybug’s main powers are Lucky Charm (summoning a creative object) &  Miraculous Ladybug (repairing damage).",
-        R.drawable.ladybug_jewel,
-        "A pair of black circular earrings with a silver lining. Inhabited by the kwami Tikki, these earrings grant the power of creation.",
-        R.drawable.ladybug_lucky_charm,
-        "Objects that Ladybug creates whenever she uses Lucky Charm. They help her to achieve her objective, which is usually to stop a supervillain. \n" + "Ladybug can also throw that object skywards to activate Miraculous Ladybug, which can repair all the damage.",
-        R.drawable.marinette_picture,
-        "Passionate fashion design student and baker’s daughter, she uses the Ladybug Miraculous to protect Paris. \n" + "As the superheroine Ladybug, wields the power of creation while juggling high school life and a massive crush on Adrien Agreste.",
-        R.drawable.kwami_tikki,
-        "Ancient Kwami of Creation. Associated with the Ladybug Miraculous, she empowers her holders.",
-        "character1-ladybug",
-        R.drawable.background_ladybug,
+    ItemData(
+        id = 1,
+        imageRes = R.drawable.ladybug_picture,
+        title = "Ladybug",
+        description1 = "Miraculous: EARRINGS \n"
+                + "Transformation: SPOTS ON \n"
+                + "Ability: LUCKY CHARM \n"
+                + "Power: CREATION \n"
+                + "Weapon: YO-YO \n"
+                + "Kwami: TIKKI",
+        imageJewel = R.drawable.ladybug_jewel,
+        jewelDes = "A pair of black circular earrings with a silver lining. Inhabited by the kwami Tikki, triggered by \"Lucky Charm\", these earrings grant the power of creation.",
+        imageAbility = R.drawable.ladybug_lucky_charm,
+        description2 = "Ladybug's Lucky Charms are objects that Ladybug creates whenever she uses Lucky Charm. They help her to achieve her objective, which is usually to stop a supervillain. \n" + "Ladybug can also throw that object skywards to activate Miraculous Ladybug, which can repair all the damage.",
+        imageCivilian = R.drawable.marinette_picture,
+        civilianDes = "Marinette Dupain-Cheng, passionate fashion design student and baker’s daughter, she uses the Ladybug Miraculous to protect Paris. \n" + "As the superheroine Ladybug, wields the power of creation while juggling high school life and a massive crush on Adrien Agreste.",
+        imageKwami = R.drawable.kwami_tikki,
+        kwamiDes = "Tikki, Kwami of Creation. Connected to the Ladybug Miraculous, she is calm, kind, wise, and nurturing, acting as a loyal advisor to her wielders. Provides the power of creation.",
+        route = "character1-ladybug",
+        backgroundRes = R.drawable.background_ladybug,
+        buttonColor = Color.Red.copy(alpha = 0.5f)
+    ),
+    // CHAT NOIR
+    ItemData(
+        id = 2,
+        imageRes = R.drawable.chat_noir_picture,
+        title = "Chat Noir",
+        description1 = "Miraculous: RING \n"
+                + "Transformation: CLAWS OUT \n"
+                + "Ability: CATACLYSM \n"
+                + "Power: DESTRUCTION \n"
+                + "Weapon: STAFF \n"
+                + "Kwami: PLAGG",
+        imageJewel = R.drawable.chat_noir_jewel,
+        jewelDes = "A ring inhabited by the Kwami Plagg, triggered by \"Cataclysm\", the ring grants the power of destruction.",
+        imageAbility = R.drawable.chat_noir_cataclysm,
+        description2 = "Cataclysm is Cat Noir's signature, destructive superpower, allowing him to destroy, rust, or break any object or structure with a single touch by corrupting the molecular structure of whatever he touches.",
+        imageCivilian = R.drawable.adrien_picture,
+        civilianDes = "Adrien Agreste, a wealthy, kind-hearted student and fashion model living in Paris who transforms into the superhero Cat Noir using the Cat Miraculous. \n" + "While charming and popular, he often feels lonely due to his strict upbringing and seeks to live a normal life.",
+        imageKwami = R.drawable.kwami_plagg,
+        kwamiDes = "Plagg, kwami of destruction. Connected to the Cat Miraculous, he is generally carefree, easygoing, and lazy. However, can be cool, calm, and supportive when necessary. Provides the power to destroy.",
+        route = "character2-chat noir",
+        backgroundRes = R.drawable.background_chat_noir,
+        buttonColor = Color.Green.copy(alpha = 0.5f)
+    ),
+    // VESPERIA
+    ItemData(
+        id = 3,
+        imageRes = R.drawable.vesperia_picture,
+        title = "Vesperia",
+        description1 = "Miraculous: HAIR COMB \n"
+                + "Transformation: BUZZ ON \n"
+                + "Ability: VENOM \n"
+                + "Power: INTUITION \n"
+                + "Weapon: SPINNING TOP \n"
+                + "Kwami: POLLEN",
+        imageJewel = R.drawable.vesperia_jewel,
+        jewelDes = "A hair comb jewel inhabited by the kwami Pollen, triggered by \"Venom\", the hair comb grants the power to paralyze targets.",
+        imageAbility = R.drawable.vesperia_venom,
+        description2 = "Venom is Vesperia's signature, power to paralyze targets. It affects living beings, magical spirits, and even inorganic objects, leaving a glowing sting mark that vanishes when the effect wears off.",
+        imageCivilian = R.drawable.zoe_picture,
+        civilianDes = "Zoé Lee, a kind-hearted teenage girl from New York half-sister of Chloé Bourgeois. She is the official holder of the Bee Miraculous, transforming into the superheroine Vesperia. \n" + "Initially struggled to fit in, mimicking others' personalities before finding her own identity.",
+        imageKwami = R.drawable.kwami_pollen,
+        kwamiDes = "Pollen, kwami of Action. Connected to the Bee Miraculous, she is formal, loyal, and submissive, often addressing her holders as My Queen. Provides the power to paralyze opponents.",
+        route = "character3-vesperia",
+        backgroundRes = R.drawable.background_vesperia,
+        buttonColor = Color.Yellow.copy(alpha = 0.5f)
+    ),
+    // VIPERION
+    ItemData(
+        id = 4,
+        imageRes = R.drawable.viperion_picture,
+        title = "Viperion",
+        description1 = "Miraculous: OUROBOROS BRACELET \n"
+                    + "Transformation: SCALES SLITHER \n"
+                    + "Ability: SECOND CHANCE \n"
+                    + "Power: INTUITION \n"
+                    + "Weapon: LYRE \n"
+                    + "Kwami: SASS",
+        imageJewel = R.drawable.viperion_jewel,
+        jewelDes = "An ouroboros bracelet inhabited by the kwami Sass, triggered by \"Second Chance\", the bracelet grants the power to mark a moment and reverse time to it.",
+        imageAbility = R.drawable.viperion_second_chance,
+        description2 = "Second Chance is Viperion's signature, power to mark a moment in time and rewind to it instantly within a five-minute window.",
+        imageCivilian = R.drawable.luka_picture,
+        civilianDes = "Luka Couffaine, a kind, calm, and musical teenager who serves as Juleka’s older twin brother. He is the holder of the Snake Miraculous, transforming into Viperion. \n" + "Known for being empathetic, he \"reads\" people's inner melodies and often acts as a reliable confidant.",
+        imageKwami = R.drawable.kwami_sass,
+        kwamiDes = "Sass, Kwami of Intuition. Connected to the Snake Miraculous, he is wise, insightful and charming demeanor. Provides the power to mark a moment and reverse time to it.",
+        route = "character4-viperion",
+        backgroundRes = R.drawable.backgroubd_viperion,
+        buttonColor = Color.Cyan.copy(alpha = 0.5f)
     ),
 
-    // CHAT NOIR
 
-    // VESPERIA
-
-    // VIPERION
 )
 
 // MAIN ACTIVITY
@@ -159,6 +232,7 @@ class MainActivity : ComponentActivity() {
                                     kwamiDes = it.kwamiDes,
                                     route = it.route,
                                     backgroundRes = it.backgroundRes,
+                                    buttonColor = it.buttonColor,
                                     navController = navController,
                                 )
                             }
@@ -198,7 +272,7 @@ fun MainScreen(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(18.dp)
+                .padding(24.dp)
         ) {
 
             // TITLE: MIRACULOUS RUN GAME CHARACTERS
@@ -300,6 +374,7 @@ fun DetailsScreen(
     kwamiDes: String,
     route: String,
     backgroundRes: Int,
+    buttonColor: Color,
     navController: NavController,
 ) {
 
@@ -338,7 +413,7 @@ fun DetailsScreen(
                             (navController.popBackStack())
                         },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Red.copy(alpha = 0.5f)
+                            containerColor = buttonColor
                         )
                     ) {
                         Text(
@@ -411,14 +486,42 @@ fun DetailsScreen(
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                // DESCRIPTION 1: ABILITIES
+                // DESCRIPTION 1: STATS
                 Text(
-                    text = description1,
+                    text = buildAnnotatedString {
+                        val lines = description1.split("\n")
+
+                        lines.forEachIndexed { index, line ->
+                            val parts = line.split(":", limit = 2)
+
+                            if (parts.size == 2) {
+                                // BEFORE ":"
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = Color.White,
+                                        fontWeight = FontWeight.Normal
+                                    )
+                                ) {
+                                    append(parts[0] + ": ")
+                                }
+                                // AFTER ":"
+                                withStyle(
+                                    style = SpanStyle(
+                                        color = Color.White,
+                                        fontWeight = FontWeight.ExtraBold
+                                    )
+                                ) {
+                                    append(parts[1])
+                                }
+                            } else {
+                                append(line)
+                            }
+                            if (index != lines.lastIndex) append("\n")
+                        }
+                    },
                     fontSize = 18.sp,
                     fontFamily = dropline_mlb_font,
-                    fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Justify,
-                    color = Color.White,
                     lineHeight = 36.sp
                 )
 
@@ -435,15 +538,14 @@ fun DetailsScreen(
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(Color.Black),
                         modifier = Modifier
-                            .size(300.dp)
+                            .size(240.dp)
                             .blur(10.dp)
                     )
                     Image(
                         painter = painterResource(id = imageJewel),
                         contentDescription = "Jewel Picture",
-                        contentScale = ContentScale.FillBounds,
                         modifier = Modifier
-                            .size(300.dp)
+                            .size(240.dp)
                             .padding(5.dp)
                     )
                 }
@@ -497,7 +599,6 @@ fun DetailsScreen(
                     Image(
                         painter = painterResource(id = imageAbility),
                         contentDescription = "Ability Picture",
-                        contentScale = ContentScale.FillBounds,
                         modifier = Modifier
                             .size(300.dp)
                             .padding(5.dp)
@@ -517,7 +618,7 @@ fun DetailsScreen(
                                 fontWeight = FontWeight.Bold
                             )
                         ) {
-                            append("Lucky Charm \n")
+                            append("Ability \n")
                         }
                         withStyle(
                             style = SpanStyle(
@@ -572,7 +673,7 @@ fun DetailsScreen(
                                 fontWeight = FontWeight.Bold
                             )
                         ) {
-                            append("Marinette Dupain-Cheng \n")
+                            append("Holder \n")
                         }
                         withStyle(
                             style = SpanStyle(
@@ -602,7 +703,7 @@ fun DetailsScreen(
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(Color.Black),
                         modifier = Modifier
-                            .size(300.dp)
+                            .size(204.dp)
                             .blur(10.dp)
                     )
                     Image(
@@ -610,7 +711,7 @@ fun DetailsScreen(
                         contentDescription = "Kwami Picture",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .size(300.dp)
+                            .size(204.dp)
                             .padding(5.dp)
                     )
                 }
@@ -628,7 +729,7 @@ fun DetailsScreen(
                                 fontWeight = FontWeight.Bold
                             )
                         ) {
-                            append("Tikki \n")
+                            append("Kwami \n")
                         }
                         withStyle(
                             style = SpanStyle(
@@ -653,7 +754,7 @@ fun DetailsScreen(
                         (navController.popBackStack())
                     },
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Red.copy(alpha = 0.5f)
+                        containerColor = buttonColor
                     )
                 ) {
                     Text(
@@ -699,6 +800,7 @@ fun DetailsScreenPreview() {
             kwamiDes = "Kwami description",
             route = "main",
             backgroundRes = R.drawable.background_mlb,
+            buttonColor = Color.Red.copy(alpha = 0.5f),
             navController = rememberNavController(),
         )
     }
