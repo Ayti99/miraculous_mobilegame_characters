@@ -28,7 +28,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
@@ -45,11 +44,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.navigation.NavType
@@ -59,19 +61,18 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.lasalleaytana.p2_characters_nd_navigation.ui.theme.P2_Characters_nd_NavigationTheme
 
-// Commit Again, first try does not register until second both appear.
-
-//FONTS
+// FONTS
 val lobster_mlb_font = FontFamily(
     Font(R.font.lobster_mlb_font)
 )
-val dropline_mlb_font = FontFamily(
-    Font(R.font.dropline_mlb_font)
+val poppins_semibold_mlb_font = FontFamily(
+    Font(R.font.poppins_semibold_mlb_font)
 )
 
 // ITEM: DATA
 data class ItemData(
     val id: Int,
+    val imageCard: Int,
     val imageRes: Int,
     val title: String,
     val description1: String,
@@ -85,7 +86,9 @@ data class ItemData(
     val kwamiDes: String,
     val route: String,
     val backgroundRes: Int,
-    val buttonColor: Color
+    val buttonColor: Color,
+    val cardColor: List<Color>,
+    val imageHolder: Int
 )
 
 // ITEM: LIST
@@ -93,6 +96,7 @@ val itemList = listOf(
     // LADYBUG
     ItemData(
         id = 1,
+        imageCard = R.drawable.ladybug_profile_card,
         imageRes = R.drawable.ladybug_picture,
         title = "Ladybug",
         description1 = "Miraculous: EARRINGS \n"
@@ -111,11 +115,14 @@ val itemList = listOf(
         kwamiDes = "Tikki, Kwami of Creation. Connected to the Ladybug Miraculous, she is calm, kind, wise, and nurturing, acting as a loyal advisor to her wielders. Provides the power of creation.",
         route = "character1-ladybug",
         backgroundRes = R.drawable.background_ladybug,
-        buttonColor = Color.Red.copy(alpha = 0.5f)
+        buttonColor = Color.Red.copy(alpha = 0.5f),
+        cardColor = listOf(Color.Red, Color.White),
+        imageHolder = R.drawable.marinette_holder_picture
     ),
     // CHAT NOIR
     ItemData(
         id = 2,
+        imageCard = R.drawable.chat_noir_profile_card,
         imageRes = R.drawable.chat_noir_picture,
         title = "Chat Noir",
         description1 = "Miraculous: RING \n"
@@ -134,11 +141,14 @@ val itemList = listOf(
         kwamiDes = "Plagg, kwami of destruction. Connected to the Cat Miraculous, he is generally carefree, easygoing, and lazy. However, can be cool, calm, and supportive when necessary. Provides the power to destroy.",
         route = "character2-chat noir",
         backgroundRes = R.drawable.background_chat_noir,
-        buttonColor = Color.Green.copy(alpha = 0.5f)
+        buttonColor = Color.Green.copy(alpha = 0.5f),
+        cardColor = listOf(Color.Green, Color.White),
+        imageHolder = R.drawable.adrien_holder_picture
     ),
     // VESPERIA
     ItemData(
         id = 3,
+        imageCard = R.drawable.vesperia_profile_card,
         imageRes = R.drawable.vesperia_picture,
         title = "Vesperia",
         description1 = "Miraculous: HAIR COMB \n"
@@ -157,11 +167,14 @@ val itemList = listOf(
         kwamiDes = "Pollen, kwami of Action. Connected to the Bee Miraculous, she is formal, loyal, and submissive, often addressing her holders as My Queen. Provides the power to paralyze opponents.",
         route = "character3-vesperia",
         backgroundRes = R.drawable.background_vesperia,
-        buttonColor = Color.Yellow.copy(alpha = 0.5f)
+        buttonColor = Color.Yellow.copy(alpha = 0.5f),
+        cardColor = listOf(Color.Yellow, Color.White),
+        imageHolder = R.drawable.zoe_holder_picture
     ),
     // VIPERION
     ItemData(
         id = 4,
+        imageCard = R.drawable.viperion_profile_card,
         imageRes = R.drawable.viperion_picture,
         title = "Viperion",
         description1 = "Miraculous: OUROBOROS BRACELET \n"
@@ -180,7 +193,9 @@ val itemList = listOf(
         kwamiDes = "Sass, Kwami of Intuition. Connected to the Snake Miraculous, he is wise, insightful and charming demeanor. Provides the power to mark a moment and reverse time to it.",
         route = "character4-viperion",
         backgroundRes = R.drawable.backgroubd_viperion,
-        buttonColor = Color.Cyan.copy(alpha = 0.5f)
+        buttonColor = Color.Cyan.copy(alpha = 0.5f),
+        cardColor = listOf(Color.Cyan, Color.White),
+        imageHolder = R.drawable.luka_holder_picture
     ),
 
 
@@ -221,6 +236,7 @@ class MainActivity : ComponentActivity() {
 
                             item?.let {
                                 DetailsScreen(
+                                    imageCard =it.imageCard,
                                     imageRes = it.imageRes,
                                     title = it.title,
                                     description1 = it.description1,
@@ -235,6 +251,8 @@ class MainActivity : ComponentActivity() {
                                     route = it.route,
                                     backgroundRes = it.backgroundRes,
                                     buttonColor = it.buttonColor,
+                                    cardColor = it.cardColor,
+                                    imageHolder = it.imageHolder,
                                     navController = navController,
                                 )
                             }
@@ -254,6 +272,7 @@ fun MainScreen(navController: NavController) {
     Box(modifier = Modifier
         .fillMaxSize()
     ) {
+        // IMAGE: BACKGROUND
         Image(
             painter = painterResource(id = R.drawable.background_mlb),
             contentDescription = "Background",
@@ -261,7 +280,7 @@ fun MainScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
         )
-        // OPACITY
+        // BACKGROUND: OPACITY
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -270,7 +289,7 @@ fun MainScreen(navController: NavController) {
 
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 150.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(28.dp), // SPACE BETWEEN ITEMS
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
                 .fillMaxSize()
@@ -281,7 +300,7 @@ fun MainScreen(navController: NavController) {
             item(span = { GridItemSpan(maxLineSpan) }) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Box {
-                        // STROKE
+                        // TEXT: STROKE
                         Text(
                             text = "Miraculous Run Game Characters",
                             fontSize = 39.sp,
@@ -295,7 +314,7 @@ fun MainScreen(navController: NavController) {
                                 color = Color.Black,
                             )
                         )
-                        // FILL
+                        // TEXT: FILL
                         Text(
                             text = "Miraculous Run Game Characters",
                             fontSize = 38.sp,
@@ -329,32 +348,58 @@ fun ProfileCard(item: ItemData, navController: NavController) {
             navController.navigate("details/${item.route}")
         }
     ) {
+        // CHARACTER PROFILE CARD IMAGE
         Box(contentAlignment = Alignment.Center) {
-            // BLUR STROKE
-            Image(
-                painter = painterResource(id = item.imageRes),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(Color.Black),
+
+            Box(
                 modifier = Modifier
-                    .size(240.dp)
-                    .blur(10.dp)
+                    .size(114.dp)
+                    .clip(RoundedCornerShape(18.dp))
+                    .blur(50.dp)
+                    .background(
+                        brush = Brush.linearGradient(
+                            listOf(item.cardColor[0], item.cardColor[1])
+                        )
+                    )
             )
-            // IMAGE: CHARACTER
-            Image(
-                painter = painterResource(id = item.imageRes),
-                contentDescription = "Character Image",
-                modifier = Modifier
-                    .size(240.dp)
-            )
+                // IMAGE: CHARACTER
+                Image(
+                    painter = painterResource(id = item.imageCard),
+                    contentDescription = "Character Image",
+                    modifier = Modifier
+                        .size(110.dp)
+                        .clip(RoundedCornerShape(16.dp)),
+                    contentScale = ContentScale.Crop
+                )
+
         }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
         // CHARACTER NAME
         Box {
+            // TEXT: STROKE
             Text(
                 text = item.title,
-                fontSize = 20.sp,
-                fontFamily = dropline_mlb_font,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
+                fontSize = 16.sp,
+                fontFamily = poppins_semibold_mlb_font,
+                fontWeight = FontWeight.ExtraBold,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                style = TextStyle(
+                    drawStyle = Stroke(width = 10f),
+                    color = Color.Black,
+                )
+            )
+            // TEXT: FILL
+            Text(
+                text = item.title,
+                fontSize = 16.sp,
+                fontFamily = poppins_semibold_mlb_font,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color.White,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
             )
         }
     }
@@ -363,6 +408,7 @@ fun ProfileCard(item: ItemData, navController: NavController) {
 // DETAILS SCREEN
 @Composable
 fun DetailsScreen(
+    imageCard: Int,
     imageRes: Int,
     title: String,
     description1: String,
@@ -378,6 +424,8 @@ fun DetailsScreen(
     backgroundRes: Int,
     buttonColor: Color,
     navController: NavController,
+    cardColor: List<Color>,
+    imageHolder: Int
 ) {
 
     // IA generated
@@ -387,6 +435,7 @@ fun DetailsScreen(
     Box(modifier = Modifier
         .fillMaxSize()
     ) {
+        // IMAGE: BACKGROUND
         Image(
             painter = painterResource(id = backgroundRes),
             contentDescription = "Background",
@@ -394,7 +443,7 @@ fun DetailsScreen(
             modifier = Modifier
                 .fillMaxSize()
         )
-        // OPACITY
+        // BACKGROUND: OPACITY
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -406,7 +455,6 @@ fun DetailsScreen(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-
             item {
                 Box {
                     // BUTTON: TOP
@@ -418,6 +466,7 @@ fun DetailsScreen(
                             containerColor = buttonColor
                         )
                     ) {
+                        // TEXT: BUTTON
                         Text(
                             text = "❮❮❮❮",
                             fontSize = 16.sp,
@@ -427,7 +476,7 @@ fun DetailsScreen(
                         )
                     }
                     // TITLE: CHARACTER NAME
-                    // STROKE
+                    // TEXT: STROKE
                     Text(
                         text = title,
                         fontSize = 39.sp,
@@ -441,7 +490,7 @@ fun DetailsScreen(
                             color = Color.Black
                         )
                     )
-                    // FILL
+                    // TEXT: FILL
                     Text(
                         text = title,
                         fontSize = 38.sp,
@@ -453,12 +502,11 @@ fun DetailsScreen(
                         textAlign = TextAlign.Center
                     )
                 }
-
                 // CHARACTER IMAGE
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .clickable { // IA generated
+                        .clickable {
                             currentImageId = if (currentImageId == imageRes) {
                                 imageCivilian
                             } else {
@@ -467,28 +515,28 @@ fun DetailsScreen(
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    // BLUR STROKE
+                    // IMAGE: BLUR STROKE
                     Image(
                         painter = painterResource(id = currentImageId),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(Color.Black),
                         modifier = Modifier
-                            .size(300.dp)
-                            .blur(10.dp)
+                            .size(360.dp)
+                            .blur(8.dp)
                     )
                     // IMAGE: CHARACTER
                     Image(
                         painter = painterResource(id = currentImageId),
                         contentDescription = "Character Picture",
                         modifier = Modifier
-                            .size(300.dp)
+                            .size(360.dp)
                             .padding(5.dp)
                     )
                 }
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                // DESCRIPTION 1: STATS
+                // DESCRIPTION 1
                 Text(
                     text = buildAnnotatedString {
                         val lines = description1.split("\n")
@@ -497,7 +545,7 @@ fun DetailsScreen(
                             val parts = line.split(":", limit = 2)
 
                             if (parts.size == 2) {
-                                // BEFORE ":"
+                                // TEXT: BEFORE ":"
                                 withStyle(
                                     style = SpanStyle(
                                         color = Color.White,
@@ -506,7 +554,7 @@ fun DetailsScreen(
                                 ) {
                                     append(parts[0] + ": ")
                                 }
-                                // AFTER ":"
+                                // TEXT: AFTER ":"
                                 withStyle(
                                     style = SpanStyle(
                                         color = Color.White,
@@ -522,19 +570,19 @@ fun DetailsScreen(
                         }
                     },
                     fontSize = 18.sp,
-                    fontFamily = dropline_mlb_font,
+                    fontFamily = poppins_semibold_mlb_font,
                     textAlign = TextAlign.Justify,
                     lineHeight = 36.sp
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // IMAGE: JEWEL
+                // JEWEL IMAGE
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    // BLUR STROKE
+                    // IMAGE: BLUR STROKE
                     Image(
                         painter = painterResource(id = imageJewel),
                         contentDescription = null,
@@ -543,6 +591,7 @@ fun DetailsScreen(
                             .size(240.dp)
                             .blur(10.dp)
                     )
+                    // IMAGE: JEWEL
                     Image(
                         painter = painterResource(id = imageJewel),
                         contentDescription = "Jewel Picture",
@@ -576,7 +625,7 @@ fun DetailsScreen(
                         }
                     },
                     fontSize = 18.sp,
-                    fontFamily = dropline_mlb_font,
+                    fontFamily = poppins_semibold_mlb_font,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Justify,
                     lineHeight = 36.sp
@@ -584,12 +633,12 @@ fun DetailsScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // IMAGE: ABILITY
+                // ABILITY IMAGE
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    // BLUR STROKE
+                    // IMAGE: BLUR STROKE
                     Image(
                         painter = painterResource(id = imageAbility),
                         contentDescription = null,
@@ -598,6 +647,7 @@ fun DetailsScreen(
                             .size(300.dp)
                             .blur(10.dp)
                     )
+                    // IMAGE: ABILITY
                     Image(
                         painter = painterResource(id = imageAbility),
                         contentDescription = "Ability Picture",
@@ -609,7 +659,7 @@ fun DetailsScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // DESCRIPTION 2: LUCKY CHARM
+                // DESCRIPTION 2
                 Text(
                     text = buildAnnotatedString {
                         withStyle(
@@ -631,7 +681,7 @@ fun DetailsScreen(
                         }
                     },
                     fontSize = 18.sp,
-                    fontFamily = dropline_mlb_font,
+                    fontFamily = poppins_semibold_mlb_font,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Justify,
                     lineHeight = 36.sp
@@ -639,32 +689,33 @@ fun DetailsScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // IMAGE: CIVILIAN
+                // HOLDER IMAGE
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    // BLUR STROKE
+                    // IMAGE: BLUR STROKE
                     Image(
-                        painter = painterResource(id = imageCivilian),
+                        painter = painterResource(id = imageHolder),
                         contentDescription = null,
                         colorFilter = ColorFilter.tint(Color.Black),
                         modifier = Modifier
-                            .size(300.dp)
+                            .size(360.dp)
                             .blur(10.dp)
                     )
+                    // IMAGE: HOLDER
                     Image(
-                        painter = painterResource(id = imageCivilian),
+                        painter = painterResource(id = imageHolder),
                         contentDescription = "Civilian Picture",
                         modifier = Modifier
-                            .size(300.dp)
+                            .size(360.dp)
                             .padding(5.dp)
                     )
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // CIVILIAN DESCRIPTION
+                // HOLDER DESCRIPTION
                 Text(
                     text = buildAnnotatedString {
                         withStyle(
@@ -686,7 +737,7 @@ fun DetailsScreen(
                         }
                     },
                     fontSize = 18.sp,
-                    fontFamily = dropline_mlb_font,
+                    fontFamily = poppins_semibold_mlb_font,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Justify,
                     lineHeight = 36.sp
@@ -694,12 +745,12 @@ fun DetailsScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // IMAGE: KWAMI
+                // KWAMI IMAGE
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    // BLUR STROKE
+                    // IMAGE: BLUR STROKE
                     Image(
                         painter = painterResource(id = imageKwami),
                         contentDescription = null,
@@ -708,6 +759,7 @@ fun DetailsScreen(
                             .size(204.dp)
                             .blur(10.dp)
                     )
+                    // IMAGE: KWAMI
                     Image(
                         painter = painterResource(id = imageKwami),
                         contentDescription = "Kwami Picture",
@@ -742,7 +794,7 @@ fun DetailsScreen(
                         }
                     },
                     fontSize = 18.sp,
-                    fontFamily = dropline_mlb_font,
+                    fontFamily = poppins_semibold_mlb_font,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Justify,
                     lineHeight = 36.sp
@@ -759,6 +811,7 @@ fun DetailsScreen(
                         containerColor = buttonColor
                     )
                 ) {
+                    // TEXT: BUTTON
                     Text(
                         text = "❮❮❮❮",
                         fontSize = 16.sp,
@@ -773,8 +826,8 @@ fun DetailsScreen(
     }
 }
 
-// PREVIEWS:
-// MainScreen Preview
+// PREVIEWS
+// MAIN SCREEN
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
@@ -783,12 +836,13 @@ fun MainScreenPreview() {
     }
 }
 
-// DetailsScreen Preview
+// DETAILS SCREEN
 @Preview(showBackground = true)
 @Composable
 fun DetailsScreenPreview() {
     P2_Characters_nd_NavigationTheme {
         DetailsScreen(
+            imageCard = R.drawable.marinette_picture,
             imageRes = R.drawable.marinette_picture,
             title = "Character's name",
             description1 = "Abilities",
@@ -803,6 +857,8 @@ fun DetailsScreenPreview() {
             route = "main",
             backgroundRes = R.drawable.background_mlb,
             buttonColor = Color.Red.copy(alpha = 0.5f),
+            cardColor = listOf(Color.Red, Color.White),
+            imageHolder = R.drawable.marinette_picture,
             navController = rememberNavController(),
         )
     }
