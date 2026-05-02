@@ -1,3 +1,7 @@
 [2025-01-24 12:00:00]
 Description: Refactor project structure to follow guidelines
 Prompt: Follow the rules in the attached file called guidelines for all code generation.
+
+[2025-01-24 12:05:00]
+Description: Add clickable image toggle in DetailsScreen
+Prompt: hello Gemini, add a .clickable to the //CHARACTER IMAGE (id = imageRes)  inside composable fun DetailScreeen to allow it to change to another R.drawable.example_image when clicked
