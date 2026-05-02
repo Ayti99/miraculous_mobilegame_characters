@@ -59,7 +59,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.lasalleaytana.p2_characters_nd_navigation.ui.theme.P2_Characters_nd_NavigationTheme
 
-// Commit Again, first try does not register until second both appear
+// Commit Again, first try does not register until second both appear.
 
 //FONTS
 val lobster_mlb_font = FontFamily(
