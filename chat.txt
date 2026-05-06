@@ -5,3 +5,11 @@ Prompt: Follow the rules in the attached file called guidelines for all code gen
 [2025-01-24 12:05:00]
 Description: Add clickable image toggle in DetailsScreen
 Prompt: hello Gemini, add a .clickable to the //CHARACTER IMAGE (id = imageRes)  inside composable fun DetailScreeen to allow it to change to another R.drawable.example_image when clicked
+
+[2025-05-15 10:10:00]
+Description: Customize button colors in DetailsScreen per character
+Prompt: let the container color of the buttons inside Composable fun DetailsScreen to be change for each character screen
+
+[2025-05-15 10:20:00]
+Description: Fix GlideImage error in DetailsScreen
+Prompt: hey Gemini, solve the GlideImage error for // ABILITY IMAGE inside composable fun DetailsScreen
